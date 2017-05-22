@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Aparcamientos </title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+
+    <header>
+	  <div id="strapline">
+	    <div id="welcome_slogan">
+	      <h3>Bienvenido a la aplicación <span>Streets</span></h3>
+	    </div><!--close welcome_slogan-->
+      </div><!--close strapline-->
+	  <nav>
+	    <div id="menubar">
+          <ul id="nav">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/aparcamientos">Todos</a></li>
+            <li><a href="/about">About</a></li>
+          </ul>
+        </div><!--close menubar-->
+      </nav>
+    </header>
+
+    <div id="slideshow_container">
+	  <div class="slideshow">
+	    <ul class="slideshow">
+          <li class="show"><img width="940" height="250" src="images/home_1.jpg"/></li>
+          <li><img width="940" height="250" src="images/home_2.jpg" /></li>
+        </ul>
+	  </div><!--close slideshow-->
+	</div><!--close slideshow_container-->
+
+  <div id="site_content">
+
+    <div class="sidebar_container">
+    <div class="sidebar">
+          <div class="sidebar_item">
+            <h2>Páginas de Usuario : </h2>
+            <ul>
+              {% for config in tds_config %}
+                {% if config.titulo == "default" %}
+                  <li><a href="/{{config.usuario.username}}"> Página de {{config.usuario.username}}</a></li>
+                {% else %}
+                  <li><a href="/{{config.usuario.username}}"> {{config.titulo}}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div><!--close sidebar_item-->
+        </div><!--close sidebar-->
+        <div class="sidebar_item">
+          {% if user.is_authenticated %}
+          <h2>  Eres: <a href="/{{user}}"> {{user.username}} </a> <a href="logout/"> LOGOUT </a> </h2>
+          {% else %}
+            <h2>Identifícate : </h2>
+            <form action="login/" method="POST">
+            <p>Nickname: <input type="text" name="login" value="" placeholder="Username" autocomplete="off"></p>
+            <p>Password: <input type="password" name="password" value="" placeholder="Password" ></p>
+            <input type="submit" value="Enviar"/>
+            {% csrf_token %}
+          </form>
+          {% endif %}
+    </div><!--close sidebar_item-->
+        </div><!--close sidebar-->
+
+	  <div id="content">
+        <div class="content_item">
+          <ul><h3> <b>{{aparcamiento.nombre}} </b></h3></ul>
+          <li>Dirección : <b> {{aparcamiento.direccion}} </b><br>
+          <li>Barrio [Distrito] : <b>{{aparcamiento.barrio}}</b> [<b>{{aparcamiento.distrito}}</b>]<br>
+          <li>Web : <a href="{{aparcamiento.url}}"> Ver Sitio Web </a><br>
+          <li>Latitud y Longitud : {{aparcamiento.latitud}} | {{aparcamiento.longitud}}<br>
+          <li>Accesibilidad : <b>{{aparcamiento.accesibilidad}}</b><br>
+          <li>Descripción : <b>{{aparcamiento.descripcion}}</b></br>
+          <li>Contacto:
+            <li> Teléfono : <b>{{aparcamiento.telefono}}</b>
+            <li> Mail : <b>{{aparcamiento.mail}}</b>
+          </ul>
+          <p></p>
+        </ul>
+      </div><!--close content_item-->
+      {% if user.is_authenticated %}
+    <form action="" method="POST">
+      {% csrf_token %}
+      <h3>Añadir a mi página:</h3>
+      <input type="hidden" name="aparcamiento" value="{{aparcamiento.nombre}}"> <input type="submit" value="Favoritos"/>
+    </form>
+    <form action="" method="POST">
+      {% endif %}
+      <br></br>
+      <h2>Comentarios previos:</h2>
+      <ul>
+      {% for comentario in comentarios %}
+      <li><b>{{ comentario.texto }}</b><br>
+      {% endfor %}
+      </ul>
+      <br></br>
+      {% if user.is_authenticated %}
+      <h2>Escribe un comentario:</h2>
+      <textarea name="comentario" rows="5" cols="90">Escribe tu comentario.</textarea>
+      {% csrf_token %}
+      <input type="submit" value="Submit">
+    </form>
+    {% endif %}
+      </div><!--close content-->
+      </div><!--close site_content-->
+
+    <footer>
+	     Práctica realizada por: Celia Irene Martín Hernández, ITT. <br>
+       Esta aplicación utiliza datos del portal de datos abiertos de la ciudad de Madrid : <a href="http://datos.munimadrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=xml&file=0&filename=202584-0-aparcamientos-residentes&mgmtid=e84276ac109d3410VgnVCM2000000c205a0aRCRD&preview=full"> ver XML </a>
+    </footer>
+
+  </div><!--close main-->
+
+  <!-- javascript at the bottom for fast page loading -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/image_slide.js"></script>
+
+</body>
+</html>
