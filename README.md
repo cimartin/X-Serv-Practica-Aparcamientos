@@ -1,7 +1,7 @@
 # X-Serv-Practica-Aparcamientos
 Repositorio de inicio de la práctica final - Curso 2016/2017
 
-nombre: Celia Irene Martín Hernández
+nombre: Celia Irene Martín Hernández/n
 titulación: ITT
 cuenta linux: martinc
 usuario github: cimartin
